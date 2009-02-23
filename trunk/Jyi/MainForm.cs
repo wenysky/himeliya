@@ -39,8 +39,7 @@ namespace Jyi
                 this.tbMessage.Text += text;
                 if (!this.cbStopScroll.Checked)
                 {
-                    this.tbMessage.Focus();//让文本框获取焦点
-                    this.tbMessage.Select(this.tbMessage.TextLength, 0);//设置光标的位置到文本尾
+                    this.tbMessage.SelectionStart = this.tbMessage.TextLength;//设置光标的位置到文本尾
                     this.tbMessage.ScrollToCaret();//滚动到控件光标处
                     if (this.tbMessage.TextLength >= 50000)
                     {

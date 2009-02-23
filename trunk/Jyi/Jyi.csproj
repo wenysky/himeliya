@@ -102,9 +102,9 @@
     <Content Include="bin\Debug\副本 Jyi.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AutoPost\UnCodebase\UnCodebase.csproj">
-      <Project>{9033D483-D7DC-47EC-99B1-76299B65F030}</Project>
-      <Name>UnCodebase</Name>
+    <ProjectReference Include="..\..\..\DeepinSummer\trunk\DeepinSummer\DeepinSummer.csproj">
+      <Project>{67268E9E-AA3B-4D9E-956A-158922DA6B79}</Project>
+      <Name>DeepinSummer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

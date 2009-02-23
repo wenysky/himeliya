@@ -104,7 +104,7 @@
     <Compile Include="TextAnalyze.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepinSummer\DeepinSummer\DeepinSummer.csproj">
+    <ProjectReference Include="..\..\..\DeepinSummer\trunk\DeepinSummer\DeepinSummer.csproj">
       <Project>{67268E9E-AA3B-4D9E-956A-158922DA6B79}</Project>
       <Name>DeepinSummer</Name>
     </ProjectReference>
