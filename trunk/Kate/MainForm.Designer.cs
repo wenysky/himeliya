@@ -48,6 +48,7 @@
             this.tbxMessage.Location = new System.Drawing.Point(12, 39);
             this.tbxMessage.Multiline = true;
             this.tbxMessage.Name = "tbxMessage";
+            this.tbxMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbxMessage.Size = new System.Drawing.Size(525, 258);
             this.tbxMessage.TabIndex = 3;
             // 
