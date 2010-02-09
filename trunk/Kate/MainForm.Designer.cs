@@ -81,7 +81,7 @@
             this.btnGetLinks.TabIndex = 1;
             this.btnGetLinks.Text = "分析列表链接";
             this.btnGetLinks.UseVisualStyleBackColor = true;
-            this.btnGetLinks.Click += new System.EventHandler(this.btnGetLinks_Click);
+            this.btnGetLinks.Click += new System.EventHandler(this.btnGetThreadLinks_Click);
             // 
             // btnStartDownload
             // 
