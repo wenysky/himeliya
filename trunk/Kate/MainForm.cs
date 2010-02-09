@@ -18,15 +18,19 @@ namespace Himeliya.Kate
     {
         List<string> downloadUrlList;
 
-        NewHttper nhttper = null;
+        NewHttper httper = null;
 
         public MainForm()
         {
             InitializeComponent();
 
-            this.nhttper = new NewHttper();
-            this.nhttper.Cookie = new CookieContainer();
-            this.nhttper.RequestStringCompleted += new NewHttper.RequestStringCompleteEventHandler(nhttper_RequestStringCompleted);
+            this.httper = new NewHttper();
+            //if (true)
+            //{
+            //    this.httper.Proxy = WebRequest.GetSystemWebProxy() as WebProxy;
+            //}
+            this.httper.Cookie = new CookieContainer();
+            this.httper.RequestStringCompleted += new NewHttper.RequestStringCompleteEventHandler(nhttper_RequestStringCompleted);
         }
 
         #region 处理过程
@@ -107,9 +111,9 @@ namespace Himeliya.Kate
 
         private void btnGetThreadLinks_Click(object sender, EventArgs e)
         {
-            this.nhttper.Url = tbxUrl.Text.Trim();
-            this.nhttper.Charset = nhttper.GetPageLanguageCode();
-            this.nhttper.RequestStringAsync(EnumRequestMethod.GET, "GetTitleUrls");
+            this.httper.Url = tbxUrl.Text.Trim();
+            this.httper.Charset = httper.GetPageLanguageCode();
+            this.httper.RequestStringAsync(EnumRequestMethod.GET, "GetTitleUrls");
         }
 
         private void btnGetPosts_Click(object sender, EventArgs e)
@@ -144,9 +148,9 @@ namespace Himeliya.Kate
                         }
                          */
             #endregion
-            this.nhttper.Url = tbxUrl.Text.Trim();
-            this.nhttper.Charset = nhttper.GetPageLanguageCode();
-            this.nhttper.RequestStringAsync(EnumRequestMethod.GET, "GetImageUrls");
+            this.httper.Url = tbxUrl.Text.Trim();
+            this.httper.Charset = httper.GetPageLanguageCode();
+            this.httper.RequestStringAsync(EnumRequestMethod.GET, "GetImageUrls");
         }
 
         private void btnStartDownload_Click(object sender, EventArgs e)
@@ -167,6 +171,12 @@ namespace Himeliya.Kate
         void dr_DownloadChanged(object sender, AsyncCompletedEventArgs e)
         {
             tbxMessage.Text += "OK - " + e.UserState.ToString() + "\r\n";
+        }
+
+        private void btnConfig_Click(object sender, EventArgs e)
+        {
+            ConfigForm form = new ConfigForm();
+            form.ShowDialog(this);
         }
     }
 }
