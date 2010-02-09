@@ -81,9 +81,9 @@ namespace Himeliya.Kate
             {
                 foreach (string key in urlList.Keys)
                 {
-                    string fullUrl = Utils.CompleteRelativeUrl(baseUrl, urlList[key]);
+                    string fullUrl = Utils.CompleteRelativeUrl(baseUrl, key);
 
-                    tbxMessage.Text += string.Format("{1}{0}{2}{0}{0}", Environment.NewLine, key, fullUrl);
+                    tbxMessage.Text += string.Format("{1}{0}{2}{0}{0}", Environment.NewLine, urlList[key], fullUrl);
                 }
                 MessageBox.Show(string.Format("{0} threads got!", urlList.Count));
             }
@@ -91,10 +91,18 @@ namespace Himeliya.Kate
             {
                 tbxMessage.Text = "no regexed";
             }
+
+            int pageCount = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetBoardPageCount(sourceHtml);
+            if (pageCount >= 0)
+            {
+                MessageBox.Show(string.Format("{0} total pages got!", pageCount));
+            }
+            else
+            {
+                MessageBox.Show("no pagecount regexed");
+            }
         }
         #endregion
-
-
 
 
         private void btnGetThreadLinks_Click(object sender, EventArgs e)
