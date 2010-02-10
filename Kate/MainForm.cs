@@ -11,6 +11,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Natsuhime.Text;
 using Natsuhime.Web;
+using Himeliya.Kate.Analyze;
 
 namespace Himeliya.Kate
 {
@@ -177,6 +178,21 @@ namespace Himeliya.Kate
         {
             ConfigForm form = new ConfigForm();
             form.ShowDialog(this);
+        }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            TitleListFetcher abc = new TitleListFetcher();
+            abc.FetchCompleted += new EventHandler<Natsuhime.Events.ReturnCompletedEventArgs>(abc_FetchCompleted);
+            abc.Cookie = new CookieContainer();
+            abc.Charset = "big5";
+            abc.Url = "http://www.welovephoto.com/discuz/forumdisplay.php?fid=1";
+            abc.FetchListAnsy();
+        }
+
+        void abc_FetchCompleted(object sender, Natsuhime.Events.ReturnCompletedEventArgs e)
+        {
+            
         }
     }
 }

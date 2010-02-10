@@ -35,6 +35,7 @@
             this.btnGetLinks = new Himeliya.Controls.Button();
             this.btnStartDownload = new Himeliya.Controls.Button();
             this.btnConfig = new Himeliya.Controls.Button();
+            this.btnTest = new Himeliya.Controls.Button();
             this.SuspendLayout();
             // 
             // tbxUrl
@@ -106,11 +107,23 @@
             this.btnConfig.UseVisualStyleBackColor = true;
             this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
+            // btnTest
+            // 
+            this.btnTest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTest.Location = new System.Drawing.Point(543, 245);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(88, 23);
+            this.btnTest.TabIndex = 8;
+            this.btnTest.Text = "TEST";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(643, 309);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnConfig);
             this.Controls.Add(this.btnStartDownload);
             this.Controls.Add(this.btnGetPosts);
@@ -134,6 +147,7 @@
         private Himeliya.Controls.Button btnGetPosts;
         private Himeliya.Controls.Button btnStartDownload;
         private Himeliya.Controls.Button btnConfig;
+        private Himeliya.Controls.Button btnTest;
 
     }
 }
