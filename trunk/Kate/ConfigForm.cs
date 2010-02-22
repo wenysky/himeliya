@@ -74,10 +74,12 @@ namespace Himeliya.Kate
                 ProjectInfo pi = new ProjectInfo();
                 pi.Id = Convert.ToInt32(dr["id"]);
                 pi.Name = dr["name"].ToString();
-                pi.Url = dr["fetch_url"].ToString();
+                pi.FetchUrl = dr["fetch_url"].ToString();
+                pi.Charset = dr["charset"].ToString();
                 pi.TotalPageCount = Convert.ToInt32(dr["total_page_count"]);
                 pi.CurrentPageId = Convert.ToInt32(dr["current_page_id"]);
                 pi.CurrentPostId = Convert.ToInt32(dr["current_post_id"]);
+                pi.IsActivate = Convert.ToInt32(dr["is_activate"]);
 
                 projects.Add(pi);
             }
@@ -108,9 +110,11 @@ namespace Himeliya.Kate
             else
             {
                 string sql = string.Format(
-                    "INSERT INTO projects(`name`,`fetch_url`) VALUES('{0}','{1}')",
+                    "INSERT INTO projects(`name`,`fetch_url`,`charset`,`is_activate`) VALUES('{0}','{1}','{2}',{3})",
                     this.tbxProjectName.Text.Trim(),
-                    this.tbxUrl.Text.Trim()
+                    this.tbxUrl.Text.Trim(),
+                    this.cbbxCharset.Text.Trim(),
+                    Convert.ToInt32(this.ckbxIsActivate.Checked)
                     );
                 try
                 {
@@ -123,6 +127,8 @@ namespace Himeliya.Kate
             }
             this.BindProjectList();
 
+
+            #region old file config
             //List<ProjectInfo> projects = this.config.ContainsKey("Projects") ? this.config["Projects"] as List<ProjectInfo> : null;
 
             //if (projects == null)
@@ -143,6 +149,7 @@ namespace Himeliya.Kate
             //    this.config.Add("Projects", projects);
             //}
             //Config.SaveConfig(this.configPath, config);
+            #endregion
         }
 
         private void ckbxEditProject_CheckedChanged(object sender, EventArgs e)
@@ -156,7 +163,9 @@ namespace Himeliya.Kate
             if (pi != null)
             {
                 this.tbxProjectName.Text = pi.Name;
-                this.tbxUrl.Text = pi.Url;
+                this.ckbxIsActivate.Checked = Convert.ToBoolean(pi.IsActivate);
+                this.tbxUrl.Text = pi.FetchUrl;
+                this.cbbxCharset.Text = pi.Charset;
                 this.tbxTotalPageCount.Text = pi.TotalPageCount.ToString();
                 this.tbxCurrentPageId.Text = pi.CurrentPageId.ToString();
                 this.tbxCurrentPostId.Text = pi.CurrentPostId.ToString();

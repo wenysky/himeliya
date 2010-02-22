@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyze\BaseFetcher.cs" />
+    <Compile Include="Analyze\FileListFetcher.cs" />
     <Compile Include="Analyze\TitleListFetcher.cs" />
     <Compile Include="ConfigForm.cs">
       <SubType>Form</SubType>

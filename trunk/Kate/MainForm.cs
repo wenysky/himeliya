@@ -17,9 +17,6 @@ namespace Himeliya.Kate
 {
     public partial class MainForm : Form
     {
-        List<string> downloadUrlList;
-
-        NewHttper httper = null;
 
         public MainForm()
         {
@@ -34,6 +31,11 @@ namespace Himeliya.Kate
             this.httper.RequestStringCompleted += new NewHttper.RequestStringCompleteEventHandler(nhttper_RequestStringCompleted);
         }
 
+        #region old test
+
+        List<string> downloadUrlList;
+
+        NewHttper httper = null;
         #region 处理过程
         void nhttper_RequestStringCompleted(object sender, RequestStringCompletedEventArgs e)
         {
@@ -81,7 +83,10 @@ namespace Himeliya.Kate
 
         void GetTitleUrlsComplete(string sourceHtml, string baseUrl)
         {
-            Dictionary<string, string> urlList = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetThreadsInBoard(sourceHtml);
+            Dictionary<string, string> urlList = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetThreadsInBoard(
+                sourceHtml,
+                baseUrl
+                );
             if (urlList.Count > 0)
             {
                 foreach (string key in urlList.Keys)
@@ -173,6 +178,7 @@ namespace Himeliya.Kate
         {
             tbxMessage.Text += "OK - " + e.UserState.ToString() + "\r\n";
         }
+        #endregion
 
         private void btnConfig_Click(object sender, EventArgs e)
         {
@@ -182,17 +188,119 @@ namespace Himeliya.Kate
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            TitleListFetcher abc = new TitleListFetcher();
-            abc.FetchCompleted += new EventHandler<Natsuhime.Events.ReturnCompletedEventArgs>(abc_FetchCompleted);
-            abc.Cookie = new CookieContainer();
-            abc.Charset = "big5";
-            abc.Url = "http://www.welovephoto.com/discuz/forumdisplay.php?fid=1";
-            abc.FetchListAnsy();
+            TitleListFetcher tlf = new TitleListFetcher();
+            tlf.FetchCompleted += new EventHandler<Natsuhime.Events.ReturnCompletedEventArgs>(TitleList_FetchCompleted);
+            tlf.Cookie = new CookieContainer();
+            tlf.Charset = "big5";
+            tlf.Url = "http://www.welovephoto.com/discuz/forumdisplay.php?fid=1";
+            tlf.FetchListAnsy();
         }
 
-        void abc_FetchCompleted(object sender, Natsuhime.Events.ReturnCompletedEventArgs e)
+        void TitleList_FetchCompleted(object sender, Natsuhime.Events.ReturnCompletedEventArgs e)
         {
-            
+            if (e.Error == null)
+            {
+                Dictionary<string, string> posts = e.ReturnObject as Dictionary<string, string>;
+                foreach (KeyValuePair<string, string> post in posts)
+                {
+                    string sql = string.Format(
+                    "INSERT INTO posts(`title`,`url`) VALUES('{0}','{1}')",
+                    post.Value,
+                    post.Key
+                    );
+                    try
+                    {
+                        Natsuhime.Data.DbHelper.ExecuteNonQuery(CommandType.Text, sql);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+                MessageBox.Show(string.Format("{0} Completed!", posts.Count));
+            }
+            else
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+        }
+
+
+
+
+        private void btnGetFilesTest_Click(object sender, EventArgs e)
+        {
+            IDataReader dr = Natsuhime.Data.DbHelper.ExecuteReader(
+                CommandType.Text,
+                "SELECT * FROM posts ORDER BY id"
+                );
+
+            int postId;
+            string postUrl = string.Empty;
+
+            if (dr.Read())
+            {
+                postId = Convert.ToInt32(dr["id"]);
+                postUrl = dr["url"].ToString();
+                dr.Close();
+            }
+            else
+            {
+                dr.Close();
+                MessageBox.Show("No Record!");
+                return;
+            }
+
+            FileListFetcher flf = new FileListFetcher();
+            flf.FetchCompleted += new EventHandler<Natsuhime.Events.ReturnCompletedEventArgs>(FileList_FetchCompleted);
+            flf.Cookie = new CookieContainer();
+            flf.Charset = "big5";
+            flf.Url = postUrl;
+            flf.FetchListAnsy(postId);
+        }
+
+        void FileList_FetchCompleted(object sender, Natsuhime.Events.ReturnCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                int postId = int.Parse(e.UserState.ToString());
+                List<string> files = e.ReturnObject as List<string>;
+                foreach (string file in files)
+                {
+                    string sqlFile = string.Format(
+                        "INSERT INTO files(`url`) VALUES('{0}');select last_insert_rowid()",
+                        file
+                        );
+                    try
+                    {
+                        //Natsuhime.Data.DbHelper.ExecuteNonQuery(CommandType.Text, sqlFile);
+                        object fileId = Natsuhime.Data.DbHelper.ExecuteScalar(
+                            CommandType.Text,
+                            sqlFile
+                            );
+
+
+                        string sqlFile2Post = string.Format(
+                            "INSERT INTO file2post(`postid`,`fileid`) VALUES({0},{1})",
+                            postId,
+                            Convert.ToInt32(fileId)
+                            );
+                        Natsuhime.Data.DbHelper.ExecuteNonQuery(
+                            CommandType.Text,
+                            sqlFile2Post
+                            );
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+                MessageBox.Show(string.Format("{0} Files Completed!", files.Count));
+            }
+            else
+            {
+                MessageBox.Show(e.Error.Message);
+            }
         }
     }
 }
