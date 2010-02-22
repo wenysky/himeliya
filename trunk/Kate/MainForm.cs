@@ -161,17 +161,20 @@ namespace Himeliya.Kate
 
         private void btnStartDownload_Click(object sender, EventArgs e)
         {
-            tbxMessage.Text = "" + downloadUrlList.Count.ToString() + "\r\n"; ;
-            DownLoader dr = new DownLoader(downloadUrlList, @"G:\temptemp\");
-            dr.DownloadChanged += new EventHandler<AsyncCompletedEventArgs>(dr_DownloadChanged);
-            try
-            {
-                dr.Download();
-            }
-            catch (Exception ex)
-            {
-                tbxMessage.Text += ex.Message + "\r\n";
-            }
+            //tbxMessage.Text = "" + downloadUrlList.Count.ToString() + "\r\n"; ;
+            //DownLoader dr = new DownLoader(downloadUrlList, @"G:\temptemp\");
+            //dr.DownloadChanged += new EventHandler<AsyncCompletedEventArgs>(dr_DownloadChanged);
+            //try
+            //{
+            //    dr.Download();
+            //}
+            //catch (Exception ex)
+            //{
+            //    tbxMessage.Text += ex.Message + "\r\n";
+            //}
+
+            ProjectManager pm = new ProjectManager();
+            pm.Start();
         }
 
         void dr_DownloadChanged(object sender, AsyncCompletedEventArgs e)
