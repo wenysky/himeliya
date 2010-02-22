@@ -8,59 +8,12 @@ using Natsuhime.Events;
 
 namespace Himeliya.Kate.Analyze
 {
-    class TitleListFetcher
+    class TitleListFetcher : BaseFetcher
     {
-        NewHttper httper = null;
-        public CookieContainer Cookie
-        {
-            get
-            {
-                return this.httper.Cookie;
-            }
-            set
-            {
-                this.httper.Cookie = value;
-            }
-        }
-        public WebProxy WebProxy
-        {
-            get
-            {
-                return this.httper.Proxy;
-            }
-            set
-            {
-                this.httper.Proxy = value;
-            }
-        }
-        public string Url
-        {
-            get
-            {
-                return this.httper.Url;
-            }
-            set
-            {
-                this.httper.Url = value;
-            }
-        }
-        public string Charset
-        {
-            get
-            {
-                return this.httper.Charset;
-            }
-            set
-            {
-                this.httper.Charset = value;
-            }
-        }
-
-
         public TitleListFetcher()
         {
-            this.httper = new NewHttper();
-            this.httper.RequestStringCompleted += new NewHttper.RequestStringCompleteEventHandler(httper_StringCompleted);
+            base.httper = new NewHttper();
+            base.httper.RequestStringCompleted += new NewHttper.RequestStringCompleteEventHandler(httper_StringCompleted);
         }
 
         void httper_StringCompleted(object sender, RequestStringCompletedEventArgs e)
@@ -77,8 +30,11 @@ namespace Himeliya.Kate.Analyze
 
         void GetTitleUrlsComplete(string sourceHtml, object userstate, bool cancelled)
         {
-            string baseUrl = this.httper.Url.Substring(0, this.httper.Url.LastIndexOf('/') + 1);
-            Dictionary<string, string> urlList = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetThreadsInBoard(sourceHtml);
+            string baseUrl = base.httper.Url.Substring(0, base.httper.Url.LastIndexOf('/') + 1);
+            Dictionary<string, string> urlList = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetThreadsInBoard(
+                sourceHtml,
+                baseUrl
+                );
             OnCompleted(new ReturnCompletedEventArgs(urlList, null, cancelled, userstate));
             return;
 
@@ -107,21 +63,5 @@ namespace Himeliya.Kate.Analyze
                 //MessageBox.Show("no pagecount regexed");
             }
         }
-
-        public void FetchListAnsy()
-        {
-            this.httper.RequestStringAsync(EnumRequestMethod.GET);
-        }
-
-
-
-        void OnCompleted(ReturnCompletedEventArgs e)
-        {
-            if (this.FetchCompleted != null)
-            {
-                this.FetchCompleted(this, e);
-            }
-        }
-        public event EventHandler<ReturnCompletedEventArgs> FetchCompleted;
     }
 }

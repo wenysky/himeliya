@@ -51,6 +51,9 @@
             this.tbxUrl = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbbxProjects = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbbxCharset = new System.Windows.Forms.ComboBox();
+            this.ckbxIsActivate = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -125,6 +128,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.ckbxIsActivate);
+            this.groupBox2.Controls.Add(this.cbbxCharset);
+            this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.ckbxEditProject);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.tbxProjectName);
@@ -172,7 +178,7 @@
             this.tbxProjectName.Location = new System.Drawing.Point(47, 46);
             this.tbxProjectName.Name = "tbxProjectName";
             this.tbxProjectName.ReadOnly = true;
-            this.tbxProjectName.Size = new System.Drawing.Size(477, 21);
+            this.tbxProjectName.Size = new System.Drawing.Size(313, 21);
             this.tbxProjectName.TabIndex = 18;
             // 
             // btnNewProject
@@ -280,9 +286,42 @@
             this.cbbxProjects.FormattingEnabled = true;
             this.cbbxProjects.Location = new System.Drawing.Point(47, 20);
             this.cbbxProjects.Name = "cbbxProjects";
-            this.cbbxProjects.Size = new System.Drawing.Size(477, 20);
+            this.cbbxProjects.Size = new System.Drawing.Size(313, 20);
             this.cbbxProjects.TabIndex = 0;
             this.cbbxProjects.SelectedIndexChanged += new System.EventHandler(this.cbbxProjects_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(366, 49);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 12);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "编码:";
+            // 
+            // cbbxCharset
+            // 
+            this.cbbxCharset.FormattingEnabled = true;
+            this.cbbxCharset.Items.AddRange(new object[] {
+            "GBK",
+            "UTF-8",
+            "BIG5"});
+            this.cbbxCharset.Location = new System.Drawing.Point(408, 46);
+            this.cbbxCharset.Name = "cbbxCharset";
+            this.cbbxCharset.Size = new System.Drawing.Size(116, 20);
+            this.cbbxCharset.TabIndex = 22;
+            // 
+            // ckbxIsActivate
+            // 
+            this.ckbxIsActivate.AutoSize = true;
+            this.ckbxIsActivate.Checked = true;
+            this.ckbxIsActivate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbxIsActivate.Location = new System.Drawing.Point(408, 22);
+            this.ckbxIsActivate.Name = "ckbxIsActivate";
+            this.ckbxIsActivate.Size = new System.Drawing.Size(60, 16);
+            this.ckbxIsActivate.TabIndex = 6;
+            this.ckbxIsActivate.Text = "活动的";
+            this.ckbxIsActivate.UseVisualStyleBackColor = true;
             // 
             // ConfigForm
             // 
@@ -327,5 +366,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbxProjectName;
         private System.Windows.Forms.CheckBox ckbxEditProject;
+        private System.Windows.Forms.ComboBox cbbxCharset;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox ckbxIsActivate;
     }
 }
