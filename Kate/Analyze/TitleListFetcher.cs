@@ -5,6 +5,9 @@ using Natsuhime;
 using System.Net;
 using Natsuhime.Web;
 using Natsuhime.Events;
+using Himeliya.Kate.EventArg;
+using System.Text.RegularExpressions;
+using Himeliya.Kate.Entity;
 
 namespace Himeliya.Kate.Analyze
 {
@@ -30,38 +33,40 @@ namespace Himeliya.Kate.Analyze
 
         void GetTitleUrlsComplete(string sourceHtml, object userstate, bool cancelled)
         {
+            List<PostInfo> posts = new List<PostInfo>();
+            int pageCount = 0;
+
             string baseUrl = base.httper.Url.Substring(0, base.httper.Url.LastIndexOf('/') + 1);
-            Dictionary<string, string> urlList = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetThreadsInBoard(
-                sourceHtml,
-                baseUrl
-                );
-            OnCompleted(new ReturnCompletedEventArgs(urlList, null, cancelled, userstate));
-            return;
-
-            if (urlList.Count > 0)
+            MatchCollection urlList = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetThreadsInBoard(sourceHtml);
+            Exception error = null;
+            if (urlList != null)
             {
-                foreach (string key in urlList.Keys)
+                foreach (Match key in urlList)
                 {
-                    string fullUrl = Utils.CompleteRelativeUrl(baseUrl, key);
-
-                    //tbxMessage.Text += string.Format("{1}{0}{2}{0}{0}", Environment.NewLine, urlList[key], fullUrl);
+                    PostInfo pi = new PostInfo();
+                    pi.Url = Utils.CompleteRelativeUrl(baseUrl, key.Groups[1].Value);
+                    pi.Title = key.Groups[2].Value;
+                    posts.Add(pi);
                 }
-                //MessageBox.Show(string.Format("{0} threads got!", urlList.Count));
+                pageCount = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetBoardPageCount(sourceHtml);
             }
             else
             {
-                //tbxMessage.Text = "no regexed";
+                error = new Exception(sourceHtml);
             }
 
-            int pageCount = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetBoardPageCount(sourceHtml);
-            if (pageCount >= 0)
+            OnCompleted(new ReturnCompletedEventArgs(urlList, error, cancelled, userstate));//兼容测试方法用 以后移除
+            OnFetchPostCompleted(new FetchTitleCompletedEventArgs(posts, pageCount, error, cancelled, userstate));
+
+        }
+
+        protected void OnFetchPostCompleted(FetchTitleCompletedEventArgs e)
+        {
+            if (this.FetchPostCompleted != null)
             {
-                //MessageBox.Show(string.Format("{0} total pages got!", pageCount));
-            }
-            else
-            {
-                //MessageBox.Show("no pagecount regexed");
+                this.FetchPostCompleted(this, e);
             }
         }
+        public event EventHandler<FetchTitleCompletedEventArgs> FetchPostCompleted;
     }
 }

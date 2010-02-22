@@ -40,7 +40,7 @@ namespace Himeliya.Kate
         {
             BindProjectList();
 
-
+            #region old file config
             //this.config = Config.LoadConfig(this.configPath);
             //if (config.ContainsKey("UseProxy"))
             //{
@@ -63,6 +63,7 @@ namespace Himeliya.Kate
             //    //this.cbbxProjects.ValueMember = "Key";
             //    this.cbbxProjects.DisplayMember = "Name";
             //}
+            #endregion
         }
 
         private void BindProjectList()
@@ -74,7 +75,7 @@ namespace Himeliya.Kate
                 ProjectInfo pi = new ProjectInfo();
                 pi.Id = Convert.ToInt32(dr["id"]);
                 pi.Name = dr["name"].ToString();
-                pi.FetchUrl = dr["fetch_url"].ToString();
+                pi.Url = dr["fetch_url"].ToString();
                 pi.Charset = dr["charset"].ToString();
                 pi.TotalPageCount = Convert.ToInt32(dr["total_page_count"]);
                 pi.CurrentPageId = Convert.ToInt32(dr["current_page_id"]);
@@ -106,6 +107,26 @@ namespace Himeliya.Kate
         {
             if (this.ckbxEditProject.Checked)
             {
+                ProjectInfo pi = this.cbbxProjects.SelectedItem as ProjectInfo;
+
+                string sql = string.Format(
+                    "UPDATE projects SET `name`='{0}',`fetch_url`='{1}',`charset`='{2}',`is_activate`={3} WHERE `id`={4}",
+                    this.tbxProjectName.Text.Trim(),
+                    this.tbxUrl.Text.Trim(),
+                    this.cbbxCharset.Text.Trim(),
+                    Convert.ToInt32(this.ckbxIsActivate.Checked),
+                    pi.Id
+                    );
+
+                try
+                {
+                    DbHelper.ExecuteNonQuery(CommandType.Text, sql);
+                    this.ckbxEditProject.Checked = false;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
             else
             {
@@ -164,7 +185,7 @@ namespace Himeliya.Kate
             {
                 this.tbxProjectName.Text = pi.Name;
                 this.ckbxIsActivate.Checked = Convert.ToBoolean(pi.IsActivate);
-                this.tbxUrl.Text = pi.FetchUrl;
+                this.tbxUrl.Text = pi.Url;
                 this.cbbxCharset.Text = pi.Charset;
                 this.tbxTotalPageCount.Text = pi.TotalPageCount.ToString();
                 this.tbxCurrentPageId.Text = pi.CurrentPageId.ToString();
