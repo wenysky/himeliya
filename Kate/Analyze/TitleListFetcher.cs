@@ -45,7 +45,7 @@ namespace Himeliya.Kate.Analyze
                 {
                     PostInfo pi = new PostInfo();
                     pi.Url = Utils.CompleteRelativeUrl(baseUrl, key.Groups[1].Value);
-                    pi.Title = key.Groups[2].Value;
+                    pi.Title = Utils.HtmlDecode(key.Groups[2].Value);
                     posts.Add(pi);
                 }
                 pageCount = Natsuhime.Web.Plugin.Discuz.TextAnalyze.GetBoardPageCount(sourceHtml);
