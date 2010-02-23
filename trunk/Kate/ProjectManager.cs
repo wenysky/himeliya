@@ -19,14 +19,18 @@ namespace Himeliya.Kate
         TitleListFetcher tlf = null;
         FileListFetcher flf = null;
 
-
+        /// <summary>
+        /// 开始入口
+        /// </summary>
         internal void Start()
         {
             GetActivateProjects();
             Fetch();
         }
 
-
+        /// <summary>
+        /// 获取任务列表
+        /// </summary>
         void GetActivateProjects()
         {
             string sql = "SELECT * FROM projects WHERE `is_activate`=1";
@@ -50,6 +54,9 @@ namespace Himeliya.Kate
             dr.Close();
         }
 
+        /// <summary>
+        /// 初始化抓取
+        /// </summary>
         void Fetch()
         {
             if (projects.Count > 0)
@@ -59,6 +66,9 @@ namespace Himeliya.Kate
             }
         }
 
+        /// <summary>
+        /// 抓取主题
+        /// </summary>
         void FetchPosts()
         {
             this.tlf = new TitleListFetcher();
@@ -84,8 +94,15 @@ namespace Himeliya.Kate
                     }
                     else
                     {
-                        //throw new Exception("获取页数出错");
-                        this.tlf.FetchListAnsy("init" + Guid.NewGuid().ToString());//重试
+                        //获取页数出错,重试
+                        this.tlf.FetchListAnsy("init" + Guid.NewGuid().ToString());
+                        this.PostFetchInfoChanged(
+                            "初次获取页数出错",
+                            "初次获取页数出错,重试ing",
+                            "",
+                            null
+                            );
+
                         return;
                     }
                 }
@@ -101,14 +118,22 @@ namespace Himeliya.Kate
                         }
                         else
                         {
-                            System.Diagnostics.Debug.WriteLine("重复Url获得 : " + pi.Url);
+                            string message = "重复Url获得 : " + pi.Url;
+                            this.PostFetchInfoChanged(message, message, "", null);
+                            System.Diagnostics.Debug.WriteLine(message);
                         }
                     }
+
+                    //发送事件
+                    this.PostFetchPostsProgressChanged(
+                        projects[0].TotalPageCount - projects[0].CurrentPageId + 1,
+                        projects[0].TotalPageCount
+                        );
 
                     //计算下次获取页数(由于获取页数的正则问题,当前页数在最后9页左右的时候,都获取不到,特例排除吧)
                     if (e.TotalPageCount > 0 || projects[0].TotalPageCount - projects[0].CurrentPageId < 10)
                     {
-                        //如果页数不变,继续递减pageid,否则再次向后翻X页重新获取
+                        //如果页数不变,继续递减pageid
                         if (e.TotalPageCount > projects[0].TotalPageCount)
                         {
                             projects[0].CurrentPageId += e.TotalPageCount - projects[0].TotalPageCount;
@@ -122,8 +147,15 @@ namespace Himeliya.Kate
                     }
                     else
                     {
-                        //throw new Exception("获取页数出错");
-                        this.tlf.FetchListAnsy("continue" + projects[0].CurrentPageId.ToString());//重试
+                        //获取页数出错,重试
+                        this.tlf.FetchListAnsy("continue" + projects[0].CurrentPageId.ToString());
+                        this.PostFetchInfoChanged(
+                            "获取页数出错",
+                            "获取页数出错,重试ing:" + projects[0].CurrentPageId.ToString(),
+                            "",
+                            null
+                            );
+
                         return;
                     }
                 }
@@ -132,6 +164,13 @@ namespace Himeliya.Kate
                 //获取全部完成?
                 if (projects[0].CurrentPageId == 0)
                 {
+                    this.PostFetchInfoChanged(
+                        "获取Post完成",
+                        string.Format("获取{0}Post完成", projects[0].PostList.Count),
+                        "",
+                        null
+                        );
+
                     this.FetchFiles();
                 }
                 else
@@ -143,11 +182,13 @@ namespace Himeliya.Kate
             }
             else
             {
-                throw e.Error;
+                this.PostFetchPostsAndFilesComplted(this.projects, e.Error);
             }
         }
 
-
+        /// <summary>
+        /// 抓取主题中的文件连接
+        /// </summary>
         void FetchFiles()
         {
             this.flf = new FileListFetcher();
@@ -176,11 +217,21 @@ namespace Himeliya.Kate
                 }
                 else
                 {
-                    throw new Exception("PostInfo居然为空了!");
+                    this.PostFetchPostsAndFilesComplted(
+                        this.projects, 
+                        new Exception("PostInfo居然为空了!")
+                        );
                 }
 
+                int currentPostIndex = projects[0].PostList.IndexOf(pi);
+                int nextPostIndex = currentPostIndex + 1;
 
-                int nextPostIndex = projects[0].PostList.IndexOf(pi) + 1;
+                //发送进度时间
+                this.PostFetchFilesInPostProgressChanged(
+                    currentPostIndex + 1, 
+                    projects[0].PostList.Count
+                    );
+
 
                 //是否完成
                 if (nextPostIndex < projects[0].PostList.Count)
@@ -190,13 +241,63 @@ namespace Himeliya.Kate
                 }
                 else
                 {
+                    this.PostFetchPostsAndFilesComplted(this.projects, null);
                 }
             }
             else
             {
-                throw e.Error;
+                this.PostFetchPostsAndFilesComplted(this.projects, e.Error);
             }
         }
 
+
+
+        #region 事件声明和触发
+        void PostFetchInfoChanged(string title, string message, string extMessage, object userState)
+        {
+            if (this.FetchInfoChanged != null)
+            {
+                this.FetchInfoChanged(
+                    this,
+                    new MessageEventArgs(title, message, extMessage, userState)
+                    );
+            }
+        }
+        void PostFetchPostsProgressChanged(int currentPageId, int totalPageCount)
+        {
+            if (this.FetchPostsProgressChanged != null)
+            {
+                this.FetchPostsProgressChanged(
+                    this,
+                    new ProgressChangedEventArgs(currentPageId, totalPageCount, null)
+                    );
+            }
+        }
+        void PostFetchFilesInPostProgressChanged(int currentPostIndex, int totalPostCount)
+        {
+            if (this.FetchFilesInPostProgressChanged != null)
+            {
+                this.FetchFilesInPostProgressChanged(
+                    this,
+                    new ProgressChangedEventArgs(currentPostIndex, totalPostCount, null)
+                    );
+            }
+        }
+        void PostFetchPostsAndFilesComplted(List<ProjectInfo> projects, Exception e)
+        {
+            if (this.FetchPostsAndFilesComplted != null)
+            {
+                this.FetchPostsAndFilesComplted(
+                    this,
+                    new FetchPostsAndFilesCompletedEventArgs(projects, e, false, null)
+                    );
+            }
+        }
+
+        public event EventHandler<MessageEventArgs> FetchInfoChanged;
+        public event EventHandler<ProgressChangedEventArgs> FetchPostsProgressChanged;
+        public event EventHandler<ProgressChangedEventArgs> FetchFilesInPostProgressChanged;
+        public event EventHandler<FetchPostsAndFilesCompletedEventArgs> FetchPostsAndFilesComplted;
+        #endregion
     }
 }

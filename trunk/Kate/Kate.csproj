@@ -75,6 +75,7 @@
     <Compile Include="DownLoader.cs" />
     <Compile Include="Entity\PostInfo.cs" />
     <Compile Include="Entity\ProjectInfo.cs" />
+    <Compile Include="EventArg\FetchPostsAndFilesCompletedEventArgs.cs" />
     <Compile Include="EventArg\FetchTitleCompletedEventArgs.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
