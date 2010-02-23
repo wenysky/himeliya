@@ -35,17 +35,17 @@
             this.lblCurrentPageId = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.pgbPageCount = new System.Windows.Forms.ProgressBar();
-            this.pgbDownload = new System.Windows.Forms.ProgressBar();
-            this.label3 = new System.Windows.Forms.Label();
+            this.pgbPosts = new System.Windows.Forms.ProgressBar();
+            this.lblCurrentPost = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblTotalPost = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnStart = new Himeliya.Controls.Button();
-            this.btnConfig = new Himeliya.Controls.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbxMessage = new System.Windows.Forms.TextBox();
+            this.btnStart = new Himeliya.Controls.Button();
+            this.btnConfig = new Himeliya.Controls.Button();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -90,7 +90,7 @@
             // lblCurrentPageId
             // 
             this.lblCurrentPageId.AutoSize = true;
-            this.lblCurrentPageId.Location = new System.Drawing.Point(417, 39);
+            this.lblCurrentPageId.Location = new System.Drawing.Point(404, 39);
             this.lblCurrentPageId.Name = "lblCurrentPageId";
             this.lblCurrentPageId.Size = new System.Drawing.Size(11, 12);
             this.lblCurrentPageId.TabIndex = 5;
@@ -112,21 +112,21 @@
             this.pgbPageCount.Size = new System.Drawing.Size(327, 15);
             this.pgbPageCount.TabIndex = 6;
             // 
-            // pgbDownload
+            // pgbPosts
             // 
-            this.pgbDownload.Location = new System.Drawing.Point(50, 58);
-            this.pgbDownload.Name = "pgbDownload";
-            this.pgbDownload.Size = new System.Drawing.Size(327, 15);
-            this.pgbDownload.TabIndex = 11;
+            this.pgbPosts.Location = new System.Drawing.Point(50, 58);
+            this.pgbPosts.Name = "pgbPosts";
+            this.pgbPosts.Size = new System.Drawing.Size(327, 15);
+            this.pgbPosts.TabIndex = 11;
             // 
-            // label3
+            // lblCurrentPost
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(417, 61);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(11, 12);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "1";
+            this.lblCurrentPost.AutoSize = true;
+            this.lblCurrentPost.Location = new System.Drawing.Point(404, 61);
+            this.lblCurrentPost.Name = "lblCurrentPost";
+            this.lblCurrentPost.Size = new System.Drawing.Size(11, 12);
+            this.lblCurrentPost.TabIndex = 10;
+            this.lblCurrentPost.Text = "1";
             // 
             // label4
             // 
@@ -137,14 +137,14 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "下载:";
             // 
-            // label6
+            // lblTotalPost
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(451, 61);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(11, 12);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "1";
+            this.lblTotalPost.AutoSize = true;
+            this.lblTotalPost.Location = new System.Drawing.Point(451, 61);
+            this.lblTotalPost.Name = "lblTotalPost";
+            this.lblTotalPost.Size = new System.Drawing.Size(11, 12);
+            this.lblTotalPost.TabIndex = 8;
+            this.lblTotalPost.Text = "1";
             // 
             // label7
             // 
@@ -160,13 +160,13 @@
             this.groupBox1.Controls.Add(this.btnStart);
             this.groupBox1.Controls.Add(this.btnConfig);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.pgbDownload);
+            this.groupBox1.Controls.Add(this.pgbPosts);
             this.groupBox1.Controls.Add(this.lblProjectName);
-            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.lblCurrentPost);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblTotalPageCount);
-            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.lblTotalPost);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.lblCurrentPageId);
@@ -178,28 +178,6 @@
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "常规";
-            // 
-            // btnStart
-            // 
-            this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStart.Location = new System.Drawing.Point(394, 12);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(50, 23);
-            this.btnStart.TabIndex = 13;
-            this.btnStart.Text = "开始";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // btnConfig
-            // 
-            this.btnConfig.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConfig.Location = new System.Drawing.Point(450, 12);
-            this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(50, 23);
-            this.btnConfig.TabIndex = 12;
-            this.btnConfig.Text = "设置";
-            this.btnConfig.UseVisualStyleBackColor = true;
-            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -237,6 +215,28 @@
             this.tbxMessage.Size = new System.Drawing.Size(503, 143);
             this.tbxMessage.TabIndex = 0;
             // 
+            // btnStart
+            // 
+            this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStart.Location = new System.Drawing.Point(394, 12);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(50, 23);
+            this.btnStart.TabIndex = 13;
+            this.btnStart.Text = "开始";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // btnConfig
+            // 
+            this.btnConfig.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConfig.Location = new System.Drawing.Point(450, 12);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(50, 23);
+            this.btnConfig.TabIndex = 12;
+            this.btnConfig.Text = "设置";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -263,10 +263,10 @@
         private System.Windows.Forms.Label lblCurrentPageId;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ProgressBar pgbPageCount;
-        private System.Windows.Forms.ProgressBar pgbDownload;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ProgressBar pgbPosts;
+        private System.Windows.Forms.Label lblCurrentPost;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblTotalPost;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

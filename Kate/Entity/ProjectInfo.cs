@@ -14,6 +14,7 @@ namespace Himeliya.Kate.Entity
         public int TotalPageCount { get; set; }
         public int CurrentPageId { get; set; }
         public int CurrentPostId { get; set; }
+        public int TotalFileCount { get; set; }
         public int IsActivate { get; set; }
 
         public List<PostInfo> PostList { get; set; }
