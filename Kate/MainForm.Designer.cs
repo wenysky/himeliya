@@ -3,14 +3,14 @@
     partial class MainForm
     {
         /// <summary>
-        /// 必需的设计器变量。
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// 清理所有正在使用的资源。
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,149 +20,259 @@
             base.Dispose(disposing);
         }
 
-        #region Windows 窗体设计器生成的代码
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// 设计器支持所需的方法 - 不要
-        /// 使用代码编辑器修改此方法的内容。
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbxUrl = new System.Windows.Forms.TextBox();
-            this.tbxMessage = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnGetPosts = new Himeliya.Controls.Button();
-            this.btnGetLinks = new Himeliya.Controls.Button();
-            this.btnStartDownload = new Himeliya.Controls.Button();
+            this.lblProjectName = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblTotalPageCount = new System.Windows.Forms.Label();
+            this.lblCurrentPageId = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pgbPageCount = new System.Windows.Forms.ProgressBar();
+            this.pgbDownload = new System.Windows.Forms.ProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnStart = new Himeliya.Controls.Button();
             this.btnConfig = new Himeliya.Controls.Button();
-            this.btnGetPostsTest = new Himeliya.Controls.Button();
-            this.btnGetFilesTest = new Himeliya.Controls.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbxMessage = new System.Windows.Forms.TextBox();
+            this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tbxUrl
-            // 
-            this.tbxUrl.Location = new System.Drawing.Point(77, 12);
-            this.tbxUrl.Name = "tbxUrl";
-            this.tbxUrl.Size = new System.Drawing.Size(460, 21);
-            this.tbxUrl.TabIndex = 2;
-            // 
-            // tbxMessage
-            // 
-            this.tbxMessage.Location = new System.Drawing.Point(12, 39);
-            this.tbxMessage.Multiline = true;
-            this.tbxMessage.Name = "tbxMessage";
-            this.tbxMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbxMessage.Size = new System.Drawing.Size(525, 258);
-            this.tbxMessage.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 17);
+            this.label1.Location = new System.Drawing.Point(9, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 12);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "版块链接:";
+            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "项目:";
             // 
-            // btnGetPosts
+            // lblProjectName
             // 
-            this.btnGetPosts.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGetPosts.Location = new System.Drawing.Point(543, 41);
-            this.btnGetPosts.Name = "btnGetPosts";
-            this.btnGetPosts.Size = new System.Drawing.Size(88, 23);
-            this.btnGetPosts.TabIndex = 5;
-            this.btnGetPosts.Text = "分析页面链接";
-            this.btnGetPosts.UseVisualStyleBackColor = true;
-            this.btnGetPosts.Click += new System.EventHandler(this.btnGetPosts_Click);
+            this.lblProjectName.AutoSize = true;
+            this.lblProjectName.Location = new System.Drawing.Point(50, 17);
+            this.lblProjectName.Name = "lblProjectName";
+            this.lblProjectName.Size = new System.Drawing.Size(11, 12);
+            this.lblProjectName.TabIndex = 1;
+            this.lblProjectName.Text = "1";
             // 
-            // btnGetLinks
+            // label2
             // 
-            this.btnGetLinks.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGetLinks.Location = new System.Drawing.Point(543, 12);
-            this.btnGetLinks.Name = "btnGetLinks";
-            this.btnGetLinks.Size = new System.Drawing.Size(88, 23);
-            this.btnGetLinks.TabIndex = 1;
-            this.btnGetLinks.Text = "分析列表链接";
-            this.btnGetLinks.UseVisualStyleBackColor = true;
-            this.btnGetLinks.Click += new System.EventHandler(this.btnGetThreadLinks_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(434, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(11, 12);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "/";
             // 
-            // btnStartDownload
+            // lblTotalPageCount
             // 
-            this.btnStartDownload.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartDownload.Location = new System.Drawing.Point(543, 70);
-            this.btnStartDownload.Name = "btnStartDownload";
-            this.btnStartDownload.Size = new System.Drawing.Size(88, 23);
-            this.btnStartDownload.TabIndex = 6;
-            this.btnStartDownload.Text = "开始下载";
-            this.btnStartDownload.UseVisualStyleBackColor = true;
-            this.btnStartDownload.Click += new System.EventHandler(this.btnStartDownload_Click);
+            this.lblTotalPageCount.AutoSize = true;
+            this.lblTotalPageCount.Location = new System.Drawing.Point(451, 39);
+            this.lblTotalPageCount.Name = "lblTotalPageCount";
+            this.lblTotalPageCount.Size = new System.Drawing.Size(11, 12);
+            this.lblTotalPageCount.TabIndex = 3;
+            this.lblTotalPageCount.Text = "1";
+            // 
+            // lblCurrentPageId
+            // 
+            this.lblCurrentPageId.AutoSize = true;
+            this.lblCurrentPageId.Location = new System.Drawing.Point(417, 39);
+            this.lblCurrentPageId.Name = "lblCurrentPageId";
+            this.lblCurrentPageId.Size = new System.Drawing.Size(11, 12);
+            this.lblCurrentPageId.TabIndex = 5;
+            this.lblCurrentPageId.Text = "1";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 39);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 12);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "分析:";
+            // 
+            // pgbPageCount
+            // 
+            this.pgbPageCount.Location = new System.Drawing.Point(50, 36);
+            this.pgbPageCount.Name = "pgbPageCount";
+            this.pgbPageCount.Size = new System.Drawing.Size(327, 15);
+            this.pgbPageCount.TabIndex = 6;
+            // 
+            // pgbDownload
+            // 
+            this.pgbDownload.Location = new System.Drawing.Point(50, 58);
+            this.pgbDownload.Name = "pgbDownload";
+            this.pgbDownload.Size = new System.Drawing.Size(327, 15);
+            this.pgbDownload.TabIndex = 11;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(417, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(11, 12);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "1";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 61);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 12);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "下载:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(451, 61);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(11, 12);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "1";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(434, 61);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(11, 12);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "/";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnStart);
+            this.groupBox1.Controls.Add(this.btnConfig);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.pgbDownload);
+            this.groupBox1.Controls.Add(this.lblProjectName);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.lblTotalPageCount);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.lblCurrentPageId);
+            this.groupBox1.Controls.Add(this.pgbPageCount);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(509, 90);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "常规";
+            // 
+            // btnStart
+            // 
+            this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStart.Location = new System.Drawing.Point(394, 12);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(50, 23);
+            this.btnStart.TabIndex = 13;
+            this.btnStart.Text = "开始";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnConfig
             // 
             this.btnConfig.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConfig.Location = new System.Drawing.Point(543, 274);
+            this.btnConfig.Location = new System.Drawing.Point(450, 12);
             this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(88, 23);
-            this.btnConfig.TabIndex = 7;
+            this.btnConfig.Size = new System.Drawing.Size(50, 23);
+            this.btnConfig.TabIndex = 12;
             this.btnConfig.Text = "设置";
             this.btnConfig.UseVisualStyleBackColor = true;
             this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
-            // btnGetPostsTest
+            // tableLayoutPanel1
             // 
-            this.btnGetPostsTest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGetPostsTest.Location = new System.Drawing.Point(543, 180);
-            this.btnGetPostsTest.Name = "btnGetPostsTest";
-            this.btnGetPostsTest.Size = new System.Drawing.Size(88, 23);
-            this.btnGetPostsTest.TabIndex = 8;
-            this.btnGetPostsTest.Text = "T_GetPosts";
-            this.btnGetPostsTest.UseVisualStyleBackColor = true;
-            this.btnGetPostsTest.Click += new System.EventHandler(this.btnTest_Click);
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(515, 265);
+            this.tableLayoutPanel1.TabIndex = 13;
             // 
-            // btnGetFilesTest
+            // groupBox2
             // 
-            this.btnGetFilesTest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGetFilesTest.Location = new System.Drawing.Point(543, 209);
-            this.btnGetFilesTest.Name = "btnGetFilesTest";
-            this.btnGetFilesTest.Size = new System.Drawing.Size(88, 23);
-            this.btnGetFilesTest.TabIndex = 9;
-            this.btnGetFilesTest.Text = "T_GetFiles";
-            this.btnGetFilesTest.UseVisualStyleBackColor = true;
-            this.btnGetFilesTest.Click += new System.EventHandler(this.btnGetFilesTest_Click);
+            this.groupBox2.Controls.Add(this.tbxMessage);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 99);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(509, 163);
+            this.groupBox2.TabIndex = 13;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "输出";
+            // 
+            // tbxMessage
+            // 
+            this.tbxMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbxMessage.Location = new System.Drawing.Point(3, 17);
+            this.tbxMessage.Multiline = true;
+            this.tbxMessage.Name = "tbxMessage";
+            this.tbxMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbxMessage.Size = new System.Drawing.Size(503, 143);
+            this.tbxMessage.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 309);
-            this.Controls.Add(this.btnGetFilesTest);
-            this.Controls.Add(this.btnGetPostsTest);
-            this.Controls.Add(this.btnConfig);
-            this.Controls.Add(this.btnStartDownload);
-            this.Controls.Add(this.btnGetPosts);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.tbxMessage);
-            this.Controls.Add(this.tbxUrl);
-            this.Controls.Add(this.btnGetLinks);
+            this.ClientSize = new System.Drawing.Size(515, 265);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "MainForm";
-            this.Text = "Kate - Himeliya Project";
+            this.Text = "MainForm";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private Himeliya.Controls.Button btnGetLinks;
-        private System.Windows.Forms.TextBox tbxUrl;
-        private System.Windows.Forms.TextBox tbxMessage;
         private System.Windows.Forms.Label label1;
-        private Himeliya.Controls.Button btnGetPosts;
-        private Himeliya.Controls.Button btnStartDownload;
+        private System.Windows.Forms.Label lblProjectName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTotalPageCount;
+        private System.Windows.Forms.Label lblCurrentPageId;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ProgressBar pgbPageCount;
+        private System.Windows.Forms.ProgressBar pgbDownload;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox tbxMessage;
+        private Himeliya.Controls.Button btnStart;
         private Himeliya.Controls.Button btnConfig;
-        private Himeliya.Controls.Button btnGetPostsTest;
-        private Himeliya.Controls.Button btnGetFilesTest;
-
     }
 }
-

@@ -36,6 +36,10 @@
             this.tbxProxyPort = new System.Windows.Forms.TextBox();
             this.tbxProxyAddress = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnDelProject = new Himeliya.Controls.Button();
+            this.ckbxIsActivate = new System.Windows.Forms.CheckBox();
+            this.cbbxCharset = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.ckbxEditProject = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tbxProjectName = new System.Windows.Forms.TextBox();
@@ -51,9 +55,6 @@
             this.tbxUrl = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbbxProjects = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cbbxCharset = new System.Windows.Forms.ComboBox();
-            this.ckbxIsActivate = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -128,6 +129,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnDelProject);
             this.groupBox2.Controls.Add(this.ckbxIsActivate);
             this.groupBox2.Controls.Add(this.cbbxCharset);
             this.groupBox2.Controls.Add(this.label7);
@@ -152,6 +154,52 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "项目";
+            // 
+            // btnDelProject
+            // 
+            this.btnDelProject.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDelProject.Location = new System.Drawing.Point(70, 176);
+            this.btnDelProject.Name = "btnDelProject";
+            this.btnDelProject.Size = new System.Drawing.Size(55, 23);
+            this.btnDelProject.TabIndex = 23;
+            this.btnDelProject.Text = "删除";
+            this.btnDelProject.UseVisualStyleBackColor = true;
+            this.btnDelProject.Click += new System.EventHandler(this.btnDelProject_Click);
+            // 
+            // ckbxIsActivate
+            // 
+            this.ckbxIsActivate.AutoSize = true;
+            this.ckbxIsActivate.Checked = true;
+            this.ckbxIsActivate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbxIsActivate.Enabled = false;
+            this.ckbxIsActivate.Location = new System.Drawing.Point(408, 22);
+            this.ckbxIsActivate.Name = "ckbxIsActivate";
+            this.ckbxIsActivate.Size = new System.Drawing.Size(60, 16);
+            this.ckbxIsActivate.TabIndex = 6;
+            this.ckbxIsActivate.Text = "活动的";
+            this.ckbxIsActivate.UseVisualStyleBackColor = true;
+            // 
+            // cbbxCharset
+            // 
+            this.cbbxCharset.Enabled = false;
+            this.cbbxCharset.FormattingEnabled = true;
+            this.cbbxCharset.Items.AddRange(new object[] {
+            "GBK",
+            "UTF-8",
+            "BIG5"});
+            this.cbbxCharset.Location = new System.Drawing.Point(408, 46);
+            this.cbbxCharset.Name = "cbbxCharset";
+            this.cbbxCharset.Size = new System.Drawing.Size(116, 20);
+            this.cbbxCharset.TabIndex = 22;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(366, 49);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 12);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "编码:";
             // 
             // ckbxEditProject
             // 
@@ -195,6 +243,7 @@
             // btnSaveProjectInfo
             // 
             this.btnSaveProjectInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSaveProjectInfo.Enabled = false;
             this.btnSaveProjectInfo.Location = new System.Drawing.Point(469, 176);
             this.btnSaveProjectInfo.Name = "btnSaveProjectInfo";
             this.btnSaveProjectInfo.Size = new System.Drawing.Size(55, 23);
@@ -290,39 +339,6 @@
             this.cbbxProjects.TabIndex = 0;
             this.cbbxProjects.SelectedIndexChanged += new System.EventHandler(this.cbbxProjects_SelectedIndexChanged);
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(366, 49);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 12);
-            this.label7.TabIndex = 21;
-            this.label7.Text = "编码:";
-            // 
-            // cbbxCharset
-            // 
-            this.cbbxCharset.FormattingEnabled = true;
-            this.cbbxCharset.Items.AddRange(new object[] {
-            "GBK",
-            "UTF-8",
-            "BIG5"});
-            this.cbbxCharset.Location = new System.Drawing.Point(408, 46);
-            this.cbbxCharset.Name = "cbbxCharset";
-            this.cbbxCharset.Size = new System.Drawing.Size(116, 20);
-            this.cbbxCharset.TabIndex = 22;
-            // 
-            // ckbxIsActivate
-            // 
-            this.ckbxIsActivate.AutoSize = true;
-            this.ckbxIsActivate.Checked = true;
-            this.ckbxIsActivate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckbxIsActivate.Location = new System.Drawing.Point(408, 22);
-            this.ckbxIsActivate.Name = "ckbxIsActivate";
-            this.ckbxIsActivate.Size = new System.Drawing.Size(60, 16);
-            this.ckbxIsActivate.TabIndex = 6;
-            this.ckbxIsActivate.Text = "活动的";
-            this.ckbxIsActivate.UseVisualStyleBackColor = true;
-            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -369,5 +385,6 @@
         private System.Windows.Forms.ComboBox cbbxCharset;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox ckbxIsActivate;
+        private Himeliya.Controls.Button btnDelProject;
     }
 }

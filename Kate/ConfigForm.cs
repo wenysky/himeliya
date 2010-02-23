@@ -14,26 +14,13 @@ namespace Himeliya.Kate
 {
     public partial class ConfigForm : Form
     {
-        string configPath;
-        Dictionary<string, object> config = null;
-
         public ConfigForm()
         {
             InitializeComponent();
-            this.configPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "config" + Path.DirectorySeparatorChar + "main.dat"
-                );
         }
 
         private void btnSaveNetwork_Click(object sender, EventArgs e)
         {
-            Dictionary<string, object> config = new Dictionary<string, object>();
-            config.Add("UseProxy", this.ckbxIsUserProxy.Checked);
-            config.Add("ProxyAddress", this.tbxProxyAddress.Text.Trim());
-            config.Add("ProxyPort", this.tbxProxyPort.Text.Trim());
-
-            Config.SaveConfig(this.configPath, config);
         }
 
         private void ConfigForm_Load(object sender, EventArgs e)
@@ -94,14 +81,33 @@ namespace Himeliya.Kate
             ChangeInputStatus(false);
         }
 
-        void ChangeInputStatus(bool isReadOnly)
+        private void btnDelProject_Click(object sender, EventArgs e)
         {
-            this.tbxCurrentPostId.ReadOnly =
-                this.tbxCurrentPageId.ReadOnly =
-                this.tbxTotalPageCount.ReadOnly =
-                this.tbxProjectName.ReadOnly =
-                this.tbxUrl.ReadOnly = isReadOnly;
+            DialogResult dr = MessageBox.Show(
+                this, 
+                "确认删除?", 
+                "确认 - Kate", 
+                MessageBoxButtons.YesNo);
+
+            if (dr == DialogResult.Yes)
+            {
+                ProjectInfo pi = this.cbbxProjects.SelectedItem as ProjectInfo;
+                if (pi != null)
+                {
+                    string sql = string.Format("DELETE FROM projects WHERE id={0}", pi.Id);
+                    try
+                    {
+                        DbHelper.ExecuteNonQuery(CommandType.Text, sql);
+                        this.BindProjectList();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
         }
+
 
         private void btnSaveProjectInfo_Click(object sender, EventArgs e)
         {
@@ -191,6 +197,19 @@ namespace Himeliya.Kate
                 this.tbxCurrentPageId.Text = pi.CurrentPageId.ToString();
                 this.tbxCurrentPostId.Text = pi.CurrentPostId.ToString();
             }
+        }
+
+        void ChangeInputStatus(bool isReadOnly)
+        {
+            this.tbxCurrentPostId.ReadOnly =
+                this.tbxCurrentPageId.ReadOnly =
+                this.tbxTotalPageCount.ReadOnly =
+                this.tbxProjectName.ReadOnly =
+                this.tbxUrl.ReadOnly = isReadOnly;
+
+            this.ckbxIsActivate.Enabled =
+                this.btnSaveProjectInfo.Enabled =
+                this.cbbxCharset.Enabled = !isReadOnly;
         }
     }
 }
