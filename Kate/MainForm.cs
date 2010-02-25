@@ -24,25 +24,22 @@ namespace Himeliya.Kate
             pm.FetchFilesInPostProgressChanged += new EventHandler<Natsuhime.Events.ProgressChangedEventArgs>(pm_FetchFilesInPostProgressChanged);
         }
 
-        void pm_FetchFilesInPostProgressChanged(object sender, Natsuhime.Events.ProgressChangedEventArgs e)
+        void SendMessage(string message)
         {
-            if (e.CurrentPercent < e.TotalPercent)
-            {
-                this.pgbPosts.Maximum = e.TotalPercent;
-                this.pgbPosts.Value = e.CurrentPercent;
-
-                this.lblCurrentPost.Text = e.CurrentPercent.ToString();
-                this.lblTotalPost.Text = e.TotalPercent.ToString();
-            }
-            else
-            {
-                SendMessage(string.Format("!!!!!==>{0}/{1}", e.CurrentPercent, e.TotalPercent));
-            }
+            this.tbxMessage.Text += message + Environment.NewLine;
+            this.tbxMessage.Focus();//让文本框获取焦点
+            this.tbxMessage.Select(this.tbxMessage.TextLength, 0);//设置光标的位置到文本尾
+            this.tbxMessage.ScrollToCaret();//滚动到控件光标处
         }
+
 
         void pm_FetchPostsProgressChanged(object sender, Natsuhime.Events.ProgressChangedEventArgs e)
         {
-            if (e.CurrentPercent < e.TotalPercent)
+            if (e.CurrentPercent > e.TotalPercent)
+            {
+                SendMessage(string.Format("异常!!!!!==>{0}/{1}", e.CurrentPercent, e.TotalPercent));
+            }
+            else
             {
                 this.pgbPageCount.Maximum = e.TotalPercent;
                 this.pgbPageCount.Value = e.CurrentPercent;
@@ -50,16 +47,22 @@ namespace Himeliya.Kate
                 this.lblCurrentPageId.Text = e.CurrentPercent.ToString();
                 this.lblTotalPageCount.Text = e.TotalPercent.ToString();
             }
-            else
-            {
-                SendMessage(string.Format("!!!!!==>{0}/{1}", e.CurrentPercent, e.TotalPercent));
-            }
         }
 
-        void pm_FetchPostsAndFilesComplted(object sender, FetchPostsAndFilesCompletedEventArgs e)
+        void pm_FetchFilesInPostProgressChanged(object sender, Natsuhime.Events.ProgressChangedEventArgs e)
         {
-            MessageBox.Show("全部获取完毕");
+            if (e.CurrentPercent > e.TotalPercent)
+            {
+                SendMessage(string.Format("异常!!!!!==>{0}/{1}", e.CurrentPercent, e.TotalPercent));
+            }
+            else
+            {
+                this.pgbPosts.Maximum = e.TotalPercent;
+                this.pgbPosts.Value = e.CurrentPercent;
 
+                this.lblCurrentPost.Text = e.CurrentPercent.ToString();
+                this.lblTotalPost.Text = e.TotalPercent.ToString();
+            }
         }
 
         void pm_FetchInfoChanged(object sender, MessageEventArgs e)
@@ -69,13 +72,13 @@ namespace Himeliya.Kate
             SendMessage(message);
         }
 
-        private void SendMessage(string message)
+        void pm_FetchPostsAndFilesComplted(object sender, FetchPostsAndFilesCompletedEventArgs e)
         {
-            this.tbxMessage.Text += message + Environment.NewLine;
-            this.tbxMessage.Focus();//让文本框获取焦点
-            this.tbxMessage.Select(this.tbxMessage.TextLength, 0);//设置光标的位置到文本尾
-            this.tbxMessage.ScrollToCaret();//滚动到控件光标处
+            MessageBox.Show("全部获取完毕");
+
         }
+
+
 
         private void btnStart_Click(object sender, EventArgs e)
         {
