@@ -130,8 +130,8 @@ namespace Himeliya.Kate
                         projects[0].TotalPageCount
                         );
 
-                    //计算下次获取页数(由于获取页数的正则问题,当前页数在最后9页左右的时候,都获取不到,特例排除吧)
-                    if (e.TotalPageCount > 0 || projects[0].TotalPageCount - projects[0].CurrentPageId < 10)
+                    //计算下次获取页数
+                    if (e.TotalPageCount > 0)
                     {
                         //如果页数不变,继续递减pageid
                         if (e.TotalPageCount > projects[0].TotalPageCount)
