@@ -8,6 +8,7 @@ namespace Himeliya.Kate
 {
     static class Program
     {
+        internal static string configPath;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -22,7 +23,7 @@ namespace Himeliya.Kate
 
         static void KateInit()
         {
-            string configPath = Utils.GetMapPath("~/config/kate.config");
+            configPath = Utils.GetMapPath("~/config/kate.config");
             DbHelper.ConnectionString = @"Data Source=" + configPath;
             DbHelper.Dbtype = "Sqlite";
         }

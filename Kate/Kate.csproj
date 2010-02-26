@@ -73,6 +73,7 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DownLoader.cs" />
+    <Compile Include="Entity\FileInfo.cs" />
     <Compile Include="Entity\PostInfo.cs" />
     <Compile Include="Entity\ProjectInfo.cs" />
     <Compile Include="EventArg\FetchPostsAndFilesCompletedEventArgs.cs" />
