@@ -9,6 +9,8 @@ using Himeliya.Kate.Analyze;
 using System.Net;
 using Natsuhime.Events;
 using Himeliya.Kate.EventArg;
+using System.Data.SQLite;
+using System.Data.Common;
 
 namespace Himeliya.Kate
 {
@@ -18,6 +20,7 @@ namespace Himeliya.Kate
         List<ProjectInfo> projects = null;
         TitleListFetcher tlf = null;
         FileListFetcher flf = null;
+        Dictionary<string, FileInfo> fileList = null;
 
         /// <summary>
         /// 开始入口
@@ -218,7 +221,7 @@ namespace Himeliya.Kate
                 else
                 {
                     this.PostFetchPostsAndFilesComplted(
-                        this.projects, 
+                        this.projects,
                         new Exception("PostInfo居然为空了!")
                         );
                 }
@@ -228,7 +231,7 @@ namespace Himeliya.Kate
 
                 //发送进度时间
                 this.PostFetchFilesInPostProgressChanged(
-                    currentPostIndex + 1, 
+                    currentPostIndex + 1,
                     projects[0].PostList.Count
                     );
 
@@ -247,6 +250,142 @@ namespace Himeliya.Kate
             else
             {
                 this.PostFetchPostsAndFilesComplted(this.projects, e.Error);
+            }
+        }
+
+        internal void SaveData()
+        {
+            this.PostFetchInfoChanged("开始整理", "开始整理", "", null);
+            int fileId, postId = -1;
+            this.fileList = new Dictionary<string, FileInfo>();
+            FileInfo fi;
+
+            SQLiteConnection conn = new SQLiteConnection(DbHelper.ConnectionString);
+            //conn.ConnectionString = Program.configPath;
+            conn.Open();
+            using (SQLiteTransaction trans = conn.BeginTransaction())
+            {
+                #region 循环所有post及其下面的file,写入数据库
+                foreach (PostInfo pi in this.projects[0].PostList)
+                {
+                    //存入当前Post到数据库
+                    #region 插入Posts表, 返回postId
+                    string sqlPost = "INSERT INTO posts(`title`,`url`) VALUES(@title,@url);select last_insert_rowid()";
+
+                    DbParameter[] pramsPost = 
+		            {
+			            DbHelper.MakeInParam("@title", DbType.String, 100,pi.Title),
+			            DbHelper.MakeInParam("@url", DbType.String, 500,pi.Url)
+		            };
+                    try
+                    {
+                        postId = Convert.ToInt32(
+                            DbHelper.ExecuteNonQuery(trans, CommandType.Text, sqlPost, pramsPost)
+                            );
+                    }
+                    catch (Exception ex)
+                    {
+                        postId = -1;
+                        string message = string.Format("插入Post失败:{0},跳过当前Post文件列表!!!" + pi.Url + ex.Message);
+                        this.PostFetchInfoChanged("插入Post失败", message, "", null);
+                        continue;
+                    }
+                    #endregion
+
+                    if (postId < 1)
+                    {
+                        string message = string.Format("插入Post失败:{0},跳过当前Post文件列表!!!" + pi.Url);
+                        this.PostFetchInfoChanged("插入Post失败", message, "", null);
+                        continue;
+                    }
+
+                    //循环当前Post下的所有文件
+                    foreach (string url in pi.FileList)
+                    {
+                        fi = new FileInfo();
+                        #region 插入Files表,返回fileId
+                        if (this.fileList.ContainsKey(url))
+                        {
+                            string message = string.Format("存在的Url :{0}", url);
+                            this.PostFetchInfoChanged("已存在的文件", message, "", null);
+                            fi.Id = this.fileList[url].Id;
+                        }
+                        else
+                        {
+                            string sqlFile = "INSERT INTO files(`url`) VALUES(@url);select last_insert_rowid()";
+                            DbParameter[] pramsFile = 
+		                    {
+			                    DbHelper.MakeInParam("@url", DbType.String, 500,url)
+		                    };
+                            try
+                            {
+                                fi.Id = Convert.ToInt32(
+                                    DbHelper.ExecuteScalar(
+                                        trans,
+                                        CommandType.Text,
+                                        sqlFile,
+                                        pramsFile
+                                        )
+                                    );
+
+                                this.fileList.Add(url, fi);
+                            }
+                            catch (Exception ex)
+                            {
+                                fi.Id = -1;
+                            }
+                        }
+                        #endregion
+
+                        #region 插入File2Post表
+                        try
+                        {
+                            if (fi.Id > 0)
+                            {
+                                string sqlFile2Post = string.Format(
+                                    "INSERT INTO file2post(`postid`,`fileid`) VALUES({0},{1})",
+                                    postId,
+                                    fi.Id
+                                    );
+                                DbHelper.ExecuteNonQuery(
+                                    trans,
+                                    CommandType.Text,
+                                    sqlFile2Post
+                                    );
+                            }
+                            else
+                            {
+                                this.PostFetchInfoChanged("插入文件失败", "插入文件失败:" + url, "", null);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (this.SaveDataComplted != null)
+                            {
+                                this.SaveDataComplted(
+                                    this,
+                                    new FetchPostsAndFilesCompletedEventArgs(this.projects, ex, false, null)
+                                    );
+                            }
+                        }
+
+                        #endregion
+                    }
+                }
+                #endregion
+
+                trans.Commit();
+            }
+            conn.Close();
+
+
+
+            if (this.SaveDataComplted != null)
+            {
+                this.SaveDataComplted(
+                    this,
+                    new FetchPostsAndFilesCompletedEventArgs(this.projects, null, false, null)
+                    );
             }
         }
 
@@ -298,6 +437,8 @@ namespace Himeliya.Kate
         public event EventHandler<ProgressChangedEventArgs> FetchPostsProgressChanged;
         public event EventHandler<ProgressChangedEventArgs> FetchFilesInPostProgressChanged;
         public event EventHandler<FetchPostsAndFilesCompletedEventArgs> FetchPostsAndFilesComplted;
+        public event EventHandler<ProgressChangedEventArgs> SaveDataProgressChanged;
+        public event EventHandler<FetchPostsAndFilesCompletedEventArgs> SaveDataComplted;
         #endregion
     }
 }

@@ -7,22 +7,29 @@ using System.Text;
 using System.Windows.Forms;
 using Natsuhime.Events;
 using Himeliya.Kate.EventArg;
+using Himeliya.Kate.Entity;
+using Natsuhime.Data;
 
 namespace Himeliya.Kate
 {
     public partial class MainForm : Form
     {
         ProjectManager pm;
+        Dictionary<string, FileInfo> fileList = null;
         public MainForm()
         {
             InitializeComponent();
-            pm = new ProjectManager();
-            pm.FetchInfoChanged += new EventHandler<MessageEventArgs>(pm_FetchInfoChanged);
-            pm.FetchPostsAndFilesComplted += new EventHandler<FetchPostsAndFilesCompletedEventArgs>(pm_FetchPostsAndFilesComplted);
+            this.pm = new ProjectManager();
+            this.pm.FetchInfoChanged += new EventHandler<MessageEventArgs>(pm_FetchInfoChanged);
+            this.pm.FetchPostsAndFilesComplted += new EventHandler<FetchPostsAndFilesCompletedEventArgs>(pm_FetchPostsAndFilesComplted);
 
-            pm.FetchPostsProgressChanged += new EventHandler<Natsuhime.Events.ProgressChangedEventArgs>(pm_FetchPostsProgressChanged);
-            pm.FetchFilesInPostProgressChanged += new EventHandler<Natsuhime.Events.ProgressChangedEventArgs>(pm_FetchFilesInPostProgressChanged);
+            this.pm.FetchPostsProgressChanged += new EventHandler<Natsuhime.Events.ProgressChangedEventArgs>(pm_FetchPostsProgressChanged);
+            this.pm.FetchFilesInPostProgressChanged += new EventHandler<Natsuhime.Events.ProgressChangedEventArgs>(pm_FetchFilesInPostProgressChanged);
+            this.pm.SaveDataComplted += new EventHandler<FetchPostsAndFilesCompletedEventArgs>(pm_SaveDataComplted);
+
+            this.fileList = new Dictionary<string, FileInfo>();
         }
+
 
         void SendMessage(string message)
         {
@@ -74,8 +81,31 @@ namespace Himeliya.Kate
 
         void pm_FetchPostsAndFilesComplted(object sender, FetchPostsAndFilesCompletedEventArgs e)
         {
-            MessageBox.Show("全部获取完毕");
+            if (e.Error == null)
+            {
+                SendMessage("全部获取完毕");
+                this.pm.SaveData();
+            }
+            else
+            {
+                MessageBox.Show("错误:" + e.Error.Message);
+            }
 
+        }
+
+
+        void pm_SaveDataComplted(object sender, FetchPostsAndFilesCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                SendMessage("保存完毕");
+                MessageBox.Show("保存完毕");
+            }
+            else
+            {
+                SendMessage("错误:" + e.Error.Message);
+                MessageBox.Show(e.Error.Message);
+            }
         }
 
 
